@@ -1,0 +1,26 @@
+@CHARSET "ISO-8859-1";
+.form-group {
+    margin-bottom: 5px;
+}
+.jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom:10px;
+    margin-top: 1px;
+    border-top: 1px solid red;
+}
+.container{
+	border-radius: 0px;
+}
+
+#dobdatetimepicker{
+	padding-left: 16px;
+}
+
+#anwartv {
+    margin-left: -10px;
+    margin-top: -13px;
+    height: 48px;
+    /* width: 222px; */
+}
+

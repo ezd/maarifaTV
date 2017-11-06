@@ -1,0 +1,15 @@
+@CHARSET "ISO-8859-1";
+
+.jumbotron {
+	background-color: #fff;
+	border-top: 1px solid red;
+	margin-top: 1px;
+}
+
+#anwartv {
+    margin-left: -10px;
+    margin-top: -13px;
+    height: 48px;
+    /* width: 222px; */
+}
+

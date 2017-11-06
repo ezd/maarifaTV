@@ -1,0 +1,21 @@
+@CHARSET "ISO-8859-1";
+
+.navbar{
+	background-color: #FFF ;
+	border: 0px;
+	margin-bottom: 1px;
+	
+}
+
+#linksContainer{
+	border-top: 1px solid green;
+	border-bottom: 1px solid yellow;
+	
+}
+
+/* .navbar-nav li{ */
+/* 	width: 100px; */
+/* } */
+.navbar-nav li a{
+	text-align: center;
+}
