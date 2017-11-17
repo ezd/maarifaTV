@@ -1,6 +1,5 @@
 package com.example.controllers;
 
-import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -84,6 +81,7 @@ public class RegistrationController {
 //				SecurityContextHolder.getContext().setAuthentication(authentication);
 				UserToken ut=userTokenService.createToken(user, expirationMiniut);
 				String url=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/activate?id="+user.getId()+"&&token="+ut.getToken();
+				System.out.println("url is***********"+url);
 				String message=NEW_USEER_ACTIVATE_GREETING+url+FINAL_GREETING;
 				if (customMailSender.sendEmail(user, ACTIVATE_USER_ACCOUNT_TITLE, message,webmasterEmail)){
 					System.out.println("email successfuly send");

@@ -2,11 +2,11 @@ package com.example.enums;
 
 public enum RoleEnum {
 	
-	EMPLOYEE("EMPLOYEE"),
-	EMPLOYER("EMPLOYER"),
-	POSTER("POSTER"),
-	ADMIN("ADMIN"),
-	USER("USER");
+	EMPLOYEE("ROLE_EMPLOYEE"),
+	EMPLOYER("ROLE_EMPLOYER"),
+	POSTER("ROLE_POSTER"),
+	ADMIN("ROLE_ADMIN"),
+	USER("ROLE_USER");
 	
 	private final String roleName;
 	

@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] RESOURCES = {
 			"/images/**","/css/**","/js/**","/","/webjars/**","/login","/contactus","/aboutus","/saveUser","/forgetPassword"
-			,"/updatePassword","/register","/accessdenide","/activate","/profile/**"
+			,"/updatePassword","/register","/accessdenide","/activate"
 	};
 	
 
@@ -32,11 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//.antMatchers("/profile/**").hasRole("USER")
 		http
+	    .csrf().disable()
         .authorizeRequests()
         	.antMatchers(RESOURCES).permitAll()
-        	.antMatchers("/post/**").hasAnyRole("POSTER","ADMIN")
+        	.antMatchers("/post/**").hasAnyRole("USER","POSTER","ADMIN")
         	.antMatchers("/admin/**").hasRole("ADMIN")
-        	
+        	.antMatchers("/profile/**").hasRole("USER")
             .anyRequest().authenticated()
         .and()
         .formLogin()

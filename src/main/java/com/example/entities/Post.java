@@ -34,16 +34,20 @@ public class Post {
 	private String url;
 	private boolean enabled;
 	private boolean commentable;
+	private String shortWords;
+	private String descriptiveImageUrl;
+	private boolean likeable;
+	private String title;
+	@Column(columnDefinition="LONGTEXT")
+	private String description;
+	@Column(columnDefinition="LONGTEXT")
+	private String content;
+	
 	@Transient
 	private Set<Comment> comments;
 	@Transient
 	private Set<Like> likes;
 
-	private String shortWords;
-	private String descriptiveImageUrl;
-	
-	
-	
 	public String getShortWords() {
 		return shortWords;
 	}
@@ -81,12 +85,7 @@ public class Post {
 		this.likeable = likeable;
 	}
 
-	private boolean likeable;
-	private String title;
-	@Column(columnDefinition="LONGTEXT")
-	private String description;
-	@Column(columnDefinition="LONGTEXT")
-	private String content;
+	
 	
 	
 	public Long getId() {

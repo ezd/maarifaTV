@@ -77,124 +77,124 @@ public class WebSecurityApplication {
 		this.msgTemplate = msgTemplate;
 	}
 	
-	@PostConstruct
-	public void dbinit(){
-		Role adminRole=new Role(RoleEnum.ADMIN);
-		Role userRole=new Role(RoleEnum.USER);
-		Role posterRole=new Role(RoleEnum.POSTER);
-		
-		User adminUser=new User("biliyala.ezd21@gmail.com", webmasterpassword, "Admin", "AdminLast", "lasColinas","Irving", "USA", "12-23-1982", "206-229-1976",true);
-		Set<Role> roles=new HashSet<>();
-		roles.add(adminRole);
-		User savedAdminUser=userRegistrationService.saveUserInfo(adminUser, roles);
-		
-		User userUser=new User("biliyala.ezd22@gmail.com", "123456", "ezedin", "wangoria", "kolfea", "addis ababa", "Ethiopia", "12-23-1982", "251911701777",true);
-		roles=new HashSet<>();
-		roles.add(userRole);
-		User savedUserUser=userRegistrationService.saveUserInfo(userUser, roles);
-		
-		User posterUser=new User("biliyala.ezd23@gmail.com", "123456", "red", "muluken", "asko", "addis ababa", "Ethiopia", "12-23-1982", "251911701777",true);
-		roles=new HashSet<>();
-		roles.add(posterRole);
-		User savedPosterUser=userRegistrationService.saveUserInfo(posterUser, roles);
-		
-		Post post=this.getPost(savedUserUser);
-		Post savedPost=postService.saveOrUpdatePost(post);
-		
-		Post post2=this.getPost(savedAdminUser);
-		post2.setTitle("2nd post");
-		post2.setEnabled(false);
-		Post savedPost2=postService.saveOrUpdatePost(post2);
-		
-		Post post3=this.getPost(savedPosterUser);
-		post3.setTitle("3rd post");
-		post3.setPoster(posterUser);
-		Post savedPost3=postService.saveOrUpdatePost(post3);
-		
-		Post post4=this.getPost(savedUserUser);
-		post4.setTitle("4th post");
-		post4.setPoster(adminUser);
-		post4.setCatigory("social");
-		post4.setContentType(ContentType.NonTextContentType);
-		savedPost=postService.saveOrUpdatePost(post4);
-		
-//		System.out.println("last Saved info:"+savedPost.toString());
-		
-		Post postToUpdate=postService.getPost(1L);
-		postToUpdate.setContentType(ContentType.NonTextContentType);
-		postToUpdate.setContent("");
-		postToUpdate.setUrl("https://www.youtube.com/watch?v=WzUaxNhKlTo");
-		postToUpdate.setCatigory("religion");
-		Post updatedPost=postService.saveOrUpdatePost(postToUpdate);
-		
-//		System.out.println("*************************************************************");
-////		System.out.println("updated info:"+updatedPost.toString());
-////		postService.deletePost(2L);
-//		System.out.println("find all");
-//		for(Post postfound:postService.getAllPostsByContentType(ContentType.TextContentType)){
-//			System.out.println(postfound.getTitle());
-//		}
+//	@PostConstruct
+//	public void dbinit(){
+//		Role adminRole=new Role(RoleEnum.ADMIN);
+//		Role userRole=new Role(RoleEnum.USER);
+//		Role posterRole=new Role(RoleEnum.POSTER);
 //		
-//		System.out.println("*************************************************************");
-//		System.out.println("find by user");
-////		User x=
-//		for(Post postfound:postService.getAllPostsByUserByContentType(savedUserUser, ContentType.TextContentType)){
-//			System.out.println(postfound.getTitle());
-//		}
-//		System.out.println("*************************************************************");
-//		System.out.println("find by user and enabled");
-//		for(Post postfound:postService.getAllPostsByUserEnabledByContentType(savedUserUser, true, ContentType.TextContentType)){
-//			System.out.println(postfound.getTitle());
-//		}
+//		User adminUser=new User("biliyala.ezd21@gmail.com", webmasterpassword, "Admin", "AdminLast", "lasColinas","Irving", "USA", "12-23-1982", "206-229-1976",true);
+//		Set<Role> roles=new HashSet<>();
+//		roles.add(adminRole);
+//		User savedAdminUser=userRegistrationService.saveUserInfo(adminUser, roles);
 //		
-//		System.out.println("*************************************************************");
-//		System.out.println("find by user and pagable");
-//		Pageable pagable=new PageRequest(0, 10, Direction.DESC, "title");
-//		for(Post postfound:postService.getAllPostsByUserByEnabledByContentTypeByPage(savedUserUser, true, ContentType.TextContentType, pagable)){
-//			System.out.println(postfound.getTitle());
-//		}
-//		System.out.println("*************************************************************");
-//		System.out.println("find by user and enabled pagable");
-//		Pageable pagable3=new PageRequest(0, 10, Direction.DESC, "title");
-//		for(Post postfound:postService.getAllPostsByUserByEnabledByPage(savedAdminUser,false,pagable3)){
-//			System.out.println(postfound.getTitle());
-//		}
-		
-		
-		//getAllPostsByUserByEnabledByPage
-//		System.out.println("*************************************************************");
-//		System.out.println("find all byPage");
-//		Pageable pagable=new PageRequest(0, 10, Direction.DESC, "title");
-//		for(Post postfound:postService.getAllPostsByPage(pagable)){
-//			System.out.println(postfound.getTitle());
-//		}
+//		User userUser=new User("biliyala.ezd22@gmail.com", "123456", "ezedin", "wangoria", "kolfea", "addis ababa", "Ethiopia", "12-23-1982", "251911701777",true);
+//		roles=new HashSet<>();
+//		roles.add(userRole);
+//		User savedUserUser=userRegistrationService.saveUserInfo(userUser, roles);
 //		
-//		System.out.println("*************************************************************");
-//		System.out.println("find all enabled");
-//		for(Post postfound:postService.getAllPostsByEnabled(true)){
-//			System.out.println(postfound.getTitle());
-//		}
-//		System.out.println("*************************************************************");
-//		System.out.println("find all enabled byPage");
-//		Pageable pagable2=new PageRequest(0, 10, Direction.DESC, "title");
-//		for(Post postfound:postService.getAllPostsByEnabled(true,pagable2)){
-//			System.out.println(postfound.getTitle());
-//		}
-
-		
-		
-		
-		
-		
-		//UserToken ut= userTokenService.createToken(savedUser, expirationMiniut);
-//		this.msgTemplate=new SimpleMailMessage();
-//		this.msgTemplate.setFrom(webmasterEmail);
-//		this.msgTemplate.setTo("biliyala.ezd2@gmail.com");
-//		this.msgTemplate.setSubject("Spring boot mail sender test");
-//		this.msgTemplate.setText("It should works");
-//		SimpleMailMessage msg=new SimpleMailMessage(msgTemplate);
-//		mailSender.send(msg);
-	}
+//		User posterUser=new User("biliyala.ezd23@gmail.com", "123456", "red", "muluken", "asko", "addis ababa", "Ethiopia", "12-23-1982", "251911701777",true);
+//		roles=new HashSet<>();
+//		roles.add(posterRole);
+//		User savedPosterUser=userRegistrationService.saveUserInfo(posterUser, roles);
+//		
+//		Post post=this.getPost(savedUserUser);
+//		Post savedPost=postService.saveOrUpdatePost(post);
+//		
+//		Post post2=this.getPost(savedAdminUser);
+//		post2.setTitle("2nd post");
+//		post2.setEnabled(false);
+//		Post savedPost2=postService.saveOrUpdatePost(post2);
+//		
+//		Post post3=this.getPost(savedPosterUser);
+//		post3.setTitle("3rd post");
+//		post3.setPoster(posterUser);
+//		Post savedPost3=postService.saveOrUpdatePost(post3);
+//		
+//		Post post4=this.getPost(savedUserUser);
+//		post4.setTitle("4th post");
+//		post4.setPoster(adminUser);
+//		post4.setCatigory("social");
+//		post4.setContentType(ContentType.NonTextContentType);
+//		savedPost=postService.saveOrUpdatePost(post4);
+//		
+////		System.out.println("last Saved info:"+savedPost.toString());
+//		
+//		Post postToUpdate=postService.getPost(1L);
+//		postToUpdate.setContentType(ContentType.NonTextContentType);
+//		postToUpdate.setContent("");
+//		postToUpdate.setUrl("https://www.youtube.com/watch?v=WzUaxNhKlTo");
+//		postToUpdate.setCatigory("religion");
+//		Post updatedPost=postService.saveOrUpdatePost(postToUpdate);
+//		
+////		System.out.println("*************************************************************");
+//////		System.out.println("updated info:"+updatedPost.toString());
+//////		postService.deletePost(2L);
+////		System.out.println("find all");
+////		for(Post postfound:postService.getAllPostsByContentType(ContentType.TextContentType)){
+////			System.out.println(postfound.getTitle());
+////		}
+////		
+////		System.out.println("*************************************************************");
+////		System.out.println("find by user");
+//////		User x=
+////		for(Post postfound:postService.getAllPostsByUserByContentType(savedUserUser, ContentType.TextContentType)){
+////			System.out.println(postfound.getTitle());
+////		}
+////		System.out.println("*************************************************************");
+////		System.out.println("find by user and enabled");
+////		for(Post postfound:postService.getAllPostsByUserEnabledByContentType(savedUserUser, true, ContentType.TextContentType)){
+////			System.out.println(postfound.getTitle());
+////		}
+////		
+////		System.out.println("*************************************************************");
+////		System.out.println("find by user and pagable");
+////		Pageable pagable=new PageRequest(0, 10, Direction.DESC, "title");
+////		for(Post postfound:postService.getAllPostsByUserByEnabledByContentTypeByPage(savedUserUser, true, ContentType.TextContentType, pagable)){
+////			System.out.println(postfound.getTitle());
+////		}
+////		System.out.println("*************************************************************");
+////		System.out.println("find by user and enabled pagable");
+////		Pageable pagable3=new PageRequest(0, 10, Direction.DESC, "title");
+////		for(Post postfound:postService.getAllPostsByUserByEnabledByPage(savedAdminUser,false,pagable3)){
+////			System.out.println(postfound.getTitle());
+////		}
+//		
+//		
+//		//getAllPostsByUserByEnabledByPage
+////		System.out.println("*************************************************************");
+////		System.out.println("find all byPage");
+////		Pageable pagable=new PageRequest(0, 10, Direction.DESC, "title");
+////		for(Post postfound:postService.getAllPostsByPage(pagable)){
+////			System.out.println(postfound.getTitle());
+////		}
+////		
+////		System.out.println("*************************************************************");
+////		System.out.println("find all enabled");
+////		for(Post postfound:postService.getAllPostsByEnabled(true)){
+////			System.out.println(postfound.getTitle());
+////		}
+////		System.out.println("*************************************************************");
+////		System.out.println("find all enabled byPage");
+////		Pageable pagable2=new PageRequest(0, 10, Direction.DESC, "title");
+////		for(Post postfound:postService.getAllPostsByEnabled(true,pagable2)){
+////			System.out.println(postfound.getTitle());
+////		}
+//
+//		
+//		
+//		
+//		
+//		
+//		//UserToken ut= userTokenService.createToken(savedUser, expirationMiniut);
+////		this.msgTemplate=new SimpleMailMessage();
+////		this.msgTemplate.setFrom(webmasterEmail);
+////		this.msgTemplate.setTo("biliyala.ezd2@gmail.com");
+////		this.msgTemplate.setSubject("Spring boot mail sender test");
+////		this.msgTemplate.setText("It should works");
+////		SimpleMailMessage msg=new SimpleMailMessage(msgTemplate);
+////		mailSender.send(msg);
+//	}
 	
 	private Post getPost(User user) {
 		Post newPost=new Post();
