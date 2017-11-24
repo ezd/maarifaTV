@@ -1,12 +1,17 @@
 package com.example.controllers;
 
 import java.security.Principal;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.entities.Post;
 import com.example.entities.User;
@@ -25,18 +30,14 @@ public class PostController {
 		return "/post/upload";
 	}
 
-//	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-//	public String postRegister(Model model, TextPost post,Principal username) {
-//
-//		return "/post/index";
-//	}
-	
-//	@RequestMapping(value = "/index", method = RequestMethod.GET)
-//	public String getIndex(Model model,Principal username) {
-//		UserDetails userDetails = userService.loadUserByUsername(username.getName());
-//		model.addAttribute("active", "upload");
-//		return "/post/upload";
-//	}
+	@RequestMapping(value="/saveCategory",method=RequestMethod.POST,produces="application/json")
+	public @ResponseBody String saveCategory(@RequestBody String jsonCategory){
+		System.out.println("coming to ajax ocntroller");
+
+
+		return "{'something':'otherthing'}";
+//		return "";
+	}
 
 	
 

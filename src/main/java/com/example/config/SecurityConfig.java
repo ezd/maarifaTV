@@ -24,18 +24,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] RESOURCES = {
 			"/images/**","/css/**","/js/**","/","/webjars/**","/login","/contactus","/aboutus","/saveUser","/forgetPassword"
-			,"/updatePassword","/register","/accessdenide","/activate"
+			,"/updatePassword","/register","/accessdenide","/activate","/post/**"
 	};
 	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//.antMatchers("/profile/**").hasRole("USER")
+//
+//    	.antMatchers("/post/**").hasAnyRole("USER","POSTER","ADMIN")
 		http
 	    .csrf().disable()
         .authorizeRequests()
         	.antMatchers(RESOURCES).permitAll()
-        	.antMatchers("/post/**").hasAnyRole("USER","POSTER","ADMIN")
         	.antMatchers("/admin/**").hasRole("ADMIN")
         	.antMatchers("/profile/**").hasRole("USER")
             .anyRequest().authenticated()

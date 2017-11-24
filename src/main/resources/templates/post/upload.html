@@ -43,9 +43,15 @@
 					<div class="form-group">
 						<label for="category" th:text="'Category'"
 							class="col-sm-3 control-label"></label>
-						<div class="col-sm-7">
-							<select id="category" class="form-control selectpicker"
-								name="category" th:field="*{catigory}"></select>
+						<div class="col-sm-7 input-group">
+								<select id="category" class="form-control selectpicker"
+								name="category" th:field="*{catigory}" style="width: 90%; margin-left: 2%;" ></select>
+								<span class="input-group-btn" style="float: left">
+									<!-- Button trigger modal -->
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+									  <span class="glyphicon glyphicon-plus" style="height: 20px"></span>
+									</button>
+								</span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -97,6 +103,66 @@
 
 	</div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="alert_successmsg" class="alert alert-success" style="display: none;">Category is Added</div>
+		<div id="alert_errormsg" class="alert alert-danger" style="display: none;">Error! Category is not Added</div>
+		<div class="form-group">
+			<label for="category_name" th:text="'Category'" class="col-sm-2 control-label"></label>
+			<div class="col-sm-8">
+				<input id="category_name" name="category_name" type="text" class="form-control" />
+			</div>
+			<input id="categorySubmit" type="button" value="Save" class="btn btn-primary" />
+		</div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+<script type="text/javascript">
+<!--
+
+//-->
+$().ready(function(){
+	function validateCategory(category){
+		return category.length>2
+	}
+	$('#categorySubmit').click(function(){
+// 		debugger;
+		var catValue=$('#category_name').val();
+		var isValidCategory=validateCategory(catValue);
+		if(isValidCategory){
+			$.ajax({
+				type : 'POST',
+				url : '/post/saveCategory',
+				dataType: 'json',
+				data : JSON.stringify({
+					category_name: catValue
+				}),
+				success : function(data){
+					alert('Data is saved:'+data.isCategorySaved);
+				},
+				error : function(ts){
+					alert("error"+ts.responseText);
+				}
+			});
+		}
+	});
+});
+</script>
+
 
