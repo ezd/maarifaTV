@@ -1,168 +1,566 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thyemleaf.org">
-<head th:include="layout/custheader :: custheader"/>
+<head th:include="layout/custheader :: custheader" />
 <head>
 <link rel="stylesheet" th:href="@{/css/customstyle4mainpages.css}" />
+<style type="text/css">
+#leftside {
+	border: 1px solid green;
+}
 
+#rightside {
+	border: 1px solid orange;
+	min-height: 563px;
+}
+#category{
+margin-left: 14px;
+}
+#deleteTrigerBtn{
+margin-left: 14px;
+}
+
+</style>
 </head>
 <body>
 	<div class="container">
 		<div th:include="layout/custnavbar :: custnavbar"></div>
 
 		<!-- Main component for a primary marketing message or call to action -->
-		<div class="jumbotron">
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
+		<div class="jumbotron row">
+			<div class="col-md-8" id="leftside">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
 
-					<div class="alert alert-danger alert-dismissable"
-						th:if="${msgType != 'success' and msgType != null}" role="alert">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-lable="Close">
-							<span aria-hidden="true">X</span>
-						</button>
-						<p th:text="${msg}">Something goes wrong!</p>
-					</div>
-					<div class="alert alert-success alert-dismissable"
-						th:if="${msgType}=='success'" role="alert">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-lable="Close">
-							<span aria-hidden="true">X</span>
-						</button>
-						<p th:text="${msg}">Post uploaded successfully!</p>
-					</div>
+						<div class="alert alert-danger alert-dismissable"
+							th:if="${msgType != 'success' and msgType != null}" role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-lable="Close">
+								<span aria-hidden="true">X</span>
+							</button>
+							<p th:text="${msg}">Something goes wrong!</p>
+						</div>
+						<div class="alert alert-success alert-dismissable"
+							th:if="${msgType}=='success'" role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-lable="Close">
+								<span aria-hidden="true">X</span>
+							</button>
+							<p th:text="${msg}">Post uploaded successfully!</p>
+						</div>
 
-					<div class="text-center">
-						<h2>Posting page</h2>
+						<div class="text-center">
+							<h2>Posting page</h2>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<form th:action="@{/upload}" th:object="${userpost}" th:method="post"
-					class="form-horizontal" id="uploadform" name="uploadform">
-					<input type="hidden" th:field="*{id}" />
-					<div class="form-group">
-						<label for="category" th:text="'Category'"
-							class="col-sm-3 control-label"></label>
-						<div class="col-sm-7 input-group">
+				<div class="row">
+					<form th:action="@{/post/upload}" th:object="${userpost}"
+						th:method="post" class="form-horizontal" id="uploadform"
+						name="uploadform">
+						<input type="hidden" th:field="*{id}" />
+						<div class="form-group">
+							<label for="category" th:text="'Category'"
+								class="col-sm-3 control-label"></label>
+							<div class="col-sm-7 input-group">
 								<select id="category" class="form-control selectpicker"
-								name="category" th:field="*{catigory}" style="width: 90%; margin-left: 2%;" ></select>
-								<span class="input-group-btn" style="float: left">
-									<!-- Button trigger modal -->
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-									  <span class="glyphicon glyphicon-plus" style="height: 20px"></span>
-									</button>
-								</span>
+									name="category" th:field="*{catigory}">
+									<option th:each="cat : ${categories}" th:value="${cat.id}"
+										th:text="${cat.categoryName}"></option>
+								</select>
+								<span class="input-group-btn btns"> <!-- Button trigger modal -->
+										<button id="deleteTrigerBtn" type="button"
+											class="btn btn-danger" data-toggle="modal"
+											data-target="#deleteModalLong">
+											<span class="glyphicon glyphicon-trash" style="height: 20px"></span>
+										</button>
+									</span> 
+									<span class="input-group-btn btns"> <!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary"
+											data-toggle="modal" data-target="#saveModalLong">
+											<span class="glyphicon glyphicon-plus" style="height: 20px"></span>
+										</button>
+									</span>
+
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="postTitle" th:text="'Title'"
-							class="col-sm-3 control-label"></label>
-						<div class="col-sm-7">
-							<input id="postTitle" name="postTitle" th:field="*{title}"
-								type="text" class="form-control" />
+						<div class="form-group">
+							<label for="postTitle" th:text="'Title'"
+								class="col-sm-3 control-label"></label>
+							<div class="col-sm-7">
+								<input id="postTitle" name="postTitle" th:field="*{title}"
+									type="text" class="form-control" />
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label for="shortDesc" th:text="'Short Description'"
+								class="col-sm-3 control-label"></label>
+							<div class="col-sm-7">
+								<textarea class="form-control" id="shortDesc" rows="3"
+									th:field="*{shortWords}" name="shortDesc"></textarea>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label for="postContentUrl" th:text="'URL'"
+								class="col-sm-3 control-label"></label>
+							<div class="col-sm-7">
+								<input id="postContentUrl" name="postContentUrl"
+									th:field="*{url}" type="url" class="form-control" />
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label for="postImageUrl" th:text="'Image URL'"
+								class="col-sm-3 control-label"></label>
+							<div class="col-sm-7">
+								<input id="postImageUrl" name="postImageUrl"
+									th:field="*{descriptiveImageUrl}" type="url"
+									class="form-control" />
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label for="fullDesc" th:text="'Full Description'"
+								class="col-sm-3 control-label"></label>
+							<div class="col-sm-7">
+								<textarea class="form-control" id="fullDesc" rows="5"
+									th:field="*{description}" name="fullDesc"></textarea>
+							</div>
+
 						</div>
 
-					</div>
-					<div class="form-group">
-						<label for="shortDesc" th:text="'Short Description'"
-							class="col-sm-3 control-label"></label>
-						<div class="col-sm-7">
-							<textarea class="form-control" id="shortDesc" rows="3" th:field="*{shortWords}" name="shortDesc"></textarea>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-7">
+								<input id="postsubmitbtn" type="submit" value="Upload"
+									class="btn btn-primary" />
+							</div>
 						</div>
-
-					</div>
-					<div class="form-group">
-						<label for="postUrl" th:text="'URL'"
-							class="col-sm-3 control-label"></label>
-						<div class="col-sm-7">
-							<input id="postUrl" name="postUrl" th:field="*{url}"
-								type="url" class="form-control" />
-						</div>
-
-					</div>
-					<div class="form-group">
-						<label for="fullDesc" th:text="'Full Description'"
-							class="col-sm-3 control-label"></label>
-						<div class="col-sm-7">
-							<textarea class="form-control" id="fullDesc" rows="5" th:field="*{description}" name="fullDesc"></textarea>
-						</div>
-
-					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-3 control-label"></label>
-						<div class="col-sm-7">
-							<input id="postsubmitbtn" type="submit"
-								value="Upload" class="btn btn-primary" />
-						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
+			<div class="col-md-3" id="rightside">
+			
+			<div th:if="${not #lists.isEmpty(posts)}">
+			    <h2>Post List</h2>
+			    <table class="table table-striped">
+			        <tr>
+			            <th>Id</th>
+			            <th>Name</th>
+			        </tr>
+			        <tr th:each="post : ${posts}">
+			            <td th:text="${post.id}"></td>
+			            <td th:text="${post.description}"></td>
+			        </tr>
+			    </table>
+			</div>
+			</div>
+
+
 		</div>
+		<div class="row">
 		<footer th:replace="layout/footer :: footer"></footer>
+		</div>
+		
 
 	</div>
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div id="alert_successmsg" class="alert alert-success" style="display: none;">Category is Added</div>
-		<div id="alert_errormsg" class="alert alert-danger" style="display: none;">Error! Category is not Added</div>
-		<div class="form-group">
-			<label for="category_name" th:text="'Category'" class="col-sm-2 control-label"></label>
-			<div class="col-sm-8">
-				<input id="category_name" name="category_name" type="text" class="form-control" />
+	<!-- Add Category Modal -->
+	<div class="modal fade" id="saveModalLong" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Add
+						category</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="alert_successmsg" class="alert alert-success"
+						style="display: none;">Success</div>
+					<div id="alert_errormsg" class="alert alert-danger"
+						style="display: none;">Error</div>
+					<div class="form-group">
+						<label for="category_name" th:text="'Category'"
+							class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">
+							<input id="category_name" name="category_name" type="text"
+								class="form-control" />
+						</div>
+						<input id="categorySubmit" type="button" value="Save"
+							class="btn btn-primary" />
+					</div>
+				</div>
+
 			</div>
-			<input id="categorySubmit" type="button" value="Save" class="btn btn-primary" />
 		</div>
-      </div>
-      
-    </div>
-  </div>
-</div>
+	</div>
+
+	<!-- Delete Category Modal -->
+	<div class="modal fade" id="deleteModalLong" tabindex="-1"
+		role="dialog" aria-labelledby="deleteModalLongTitle"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteModalLongTitle">Delete
+						category</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="alert_successmsg" class="alert alert-success"
+						style="display: none;">Success</div>
+					<div id="alert_errormsg" class="alert alert-danger"
+						style="display: none;">Error</div>
+					<div class="form-group">
+						<div class="col-sm-10">
+							<label id="delete_category_name" class="control-label"></label>
+							<input id="delete_category_id" type="hidden" />
+						</div>
+						<input id="deleteCategorySubmit" type="button" value="Delete"
+							class="btn btn-danger" />
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
 <script type="text/javascript">
 <!--
+	//-->
+	$()
+			.ready(
+					function() {
 
-//-->
-$().ready(function(){
-	function validateCategory(category){
-		return category.length>2
-	}
-	$('#categorySubmit').click(function(){
-// 		debugger;
-		var catValue=$('#category_name').val();
-		var isValidCategory=validateCategory(catValue);
-		if(isValidCategory){
-			$.ajax({
-				type : 'POST',
-				url : '/post/saveCategory',
-				dataType: 'json',
-				data : JSON.stringify({
-					category_name: catValue
-				}),
-				success : function(data){
-					alert('Data is saved:'+data.isCategorySaved);
-				},
-				error : function(ts){
-					alert("error"+ts.responseText);
-				}
-			});
-		}
-	});
-});
+						function validateCategory(category) {
+							return category.length >= 2;
+						}
+						$('#deleteTrigerBtn').click(
+								function() {
+									alert('something');
+									alert($('#category :selected').text())
+									//$('#delete_category_name').val('Are you sure to delete category: '+$('#category :selected').text()+' ?');
+									$('#delete_category_name').text(
+											'Are you sure to delete category: '
+													+ $('#category :selected')
+															.text() + ' ?');
+									$('#delete_category_id').val(
+											$('#category').val())
+								});
+						$('#deleteCategorySubmit')
+								.click(
+										function() {
+											alert('value to delete:'
+													+ $('#delete_category_id')
+															.val());
+											var catIdValue = $(
+													'#delete_category_id')
+													.val();
+											var categoryJson = {
+												'id' : catIdValue
+											}
+											$
+													.ajax({
+														type : "POST",
+														url : '/post/deletCategory',
+														data : JSON
+																.stringify(categoryJson),
+														beforeSend : function(
+																xhr) {
+															xhr
+																	.setRequestHeader(
+																			"Accept",
+																			"application/json");
+															xhr
+																	.setRequestHeader(
+																			"Content-Type",
+																			"application/json");
+														},
+														success : function(res) {
+															if (res.validated) {
+																$(
+																		"#category option[value="
+																				+ catIdValue
+																				+ "]")
+																		.remove();
+																$(
+																		'#alert_successmsg')
+																		.css(
+																				{
+																					display : 'block'
+																				});
+																$(
+																		'#alert_successmsg')
+																		.text(
+																				res.message);
+																$(
+																		'#alert_successmsg')
+																		.delay(
+																				3000)
+																		.fadeOut();
+																$(
+																		'#alert_successmsg')
+																		.text(
+																				'');
+																$(
+																		'#alert_successmsg')
+																		.css(
+																				{
+																					display : 'none'
+																				});
+
+															} else {
+																$(
+																		'#alert_errormsg')
+																		.css(
+																				{
+																					display : 'block'
+																				});
+																$(
+																		'#alert_errormsg')
+																		.text(
+																				res.message);
+																$(
+																		'#alert_errormsg')
+																		.delay(
+																				3000)
+																		.fadeOut();
+																$(
+																		'#alert_errormsg')
+																		.text(
+																				'');
+																$(
+																		'#alert_errormsg')
+																		.css(
+																				{
+																					display : 'none'
+																				});
+															}
+
+														},
+														error : function(ts) {
+															/*consol.log("failer"+ts.responseText);
+															$('#alert_errormsg').css({display: 'block'});
+															$('#alert_errormsg').text('Something goes wrong. Please try later');
+															$('#alert_errormsg').delay(3000).fadeOut();*/
+															alert(ts.responseText);
+														}
+													});
+											$('#deleteModalLong').modal(
+													'toggle')
+
+										});
+						$('#categorySubmit')
+								.click(
+										function() {
+											// 		debugger;
+											var catValue = $('#category_name')
+													.val();
+											var isValidCategory = validateCategory(catValue);
+											var categoryJson = {
+												'categoryName' : catValue
+											}
+											if (isValidCategory) {
+												$
+														.ajax({
+															type : "POST",
+															url : '/post/saveCategory',
+															data : JSON
+																	.stringify(categoryJson),
+															beforeSend : function(
+																	xhr) {
+																xhr
+																		.setRequestHeader(
+																				"Accept",
+																				"application/json");
+																xhr
+																		.setRequestHeader(
+																				"Content-Type",
+																				"application/json");
+															},
+															success : function(
+																	res) {
+																if (res.validated) {
+																	//var x="<option selected='selected' value="+${res.category.id}+">"+${res.category.categoryName}+"</option>";
+																	//alert(x)
+																	$(
+																			'#category')
+																			.append(
+																					$(
+																							"<option></option>")
+																							.attr(
+																									"value",
+																									res.category.id)
+																							.attr(
+																									"selected",
+																									'selected')
+																							.text(
+																									res.category.categoryName));
+
+																	$(
+																			'#alert_successmsg')
+																			.css(
+																					{
+																						display : 'block'
+																					});
+																	$(
+																			'#alert_successmsg')
+																			.text(
+																					res.message);
+																	$(
+																			'#alert_successmsg')
+																			.delay(
+																					3000)
+																			.fadeOut();
+																	$(
+																			'#alert_successmsg')
+																			.text(
+																					'');
+																	$(
+																			'#alert_successmsg')
+																			.css(
+																					{
+																						display : 'none'
+																					});
+
+																} else {
+																	$(
+																			'#alert_errormsg')
+																			.css(
+																					{
+																						display : 'block'
+																					});
+																	$(
+																			'#alert_errormsg')
+																			.text(
+																					res.message);
+																	$(
+																			'#alert_errormsg')
+																			.delay(
+																					3000)
+																			.fadeOut();
+																	$(
+																			'#alert_errormsg')
+																			.text(
+																					'');
+																	$(
+																			'#alert_errormsg')
+																			.css(
+																					{
+																						display : 'none'
+																					});
+																}
+															},
+															error : function(ts) {
+																consol
+																		.log("failer"
+																				+ ts.responseText);
+																$(
+																		'#alert_errormsg')
+																		.css(
+																				{
+																					display : 'block'
+																				});
+																$(
+																		'#alert_errormsg')
+																		.text(
+																				'Something goes wrong. Please try later');
+																$(
+																		'#alert_errormsg')
+																		.delay(
+																				3000)
+																		.fadeOut();
+																$(
+																		'#alert_errormsg')
+																		.text(
+																				'');
+																$(
+																		'#alert_errormsg')
+																		.css(
+																				{
+																					display : 'none'
+																				});
+															}
+														});
+											} else {
+												$('#alert_errormsg').css({
+													border : '1px solid red'
+												});
+												$('#alert_errormsg').css({
+													display : 'block'
+												});
+												$('#alert_errormsg')
+														.text(
+																'Please insert at least 2 characters');
+												$('#alert_errormsg')
+														.delay(3000).fadeOut();
+												$('#alert_errormsg').text('');
+												$('#alert_errormsg').css({
+													display : 'none'
+												});
+											}
+											$('#modal').modal('toggle')
+										});
+						/*postUrl : {required: true,url:true},
+						postUrl : {
+							required: "Please add URL",
+							url: "Please add correct URL"},*/
+						$('#uploadform')
+								.validate(
+										{
+											rules : {
+												category : {
+													selectcheckcategory : true
+												},
+												postTitle : {
+													required : true
+												},
+												shortDesc : {
+													required : true
+												},
+												fullDesc : {
+													required : true,
+													minlength : 200,
+													maxlength : 700
+												},
+
+											},
+											messages : {
+												category : {
+													required : true
+												},
+												postTitle : {
+													required : "Title is required"
+												},
+												shortDesc : {
+													required : "Please add short description"
+												},
+												fullDesc : {
+													required : "Please add description",
+													minlength : "Minimum 200 characters required",
+													maxlength : "Maximum 700 characters allowed"
+												}
+
+											}
+
+										});
+						jQuery.validator.addMethod('selectcheckcategory',
+								function(value) {
+									return (value != '0');
+								}, "Category is required.");
+					});
 </script>
 
 

@@ -9,9 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.entities.Category;
 import com.example.entities.ContentType;
 import com.example.entities.Post;
 import com.example.entities.User;
+import com.example.repository.CategoryRepository;
 import com.example.repository.PostRepository;
 
 @Service
@@ -22,6 +24,9 @@ public class PostService {
 	
 	@Autowired
 	PostRepository postRepository;
+	
+	@Autowired
+	CategoryRepository categoryRepository;
 	
 	public Post saveOrUpdatePost(Post post){
 		return postRepository.save(post);
@@ -138,6 +143,18 @@ public class PostService {
 			postList.add(listFound.next());
 		}
 		return postList;
+	}
+	public Category saveCategory(Category category) {
+		return categoryRepository.save(category);
+	}
+	public Category getCategoryByName(String categoryName) {
+		return categoryRepository.findByCategoryName(categoryName);
+	}
+	public List<Category> getAllCategories() {
+		return categoryRepository.findAllByOrderByCategoryNameAsc();
+	}
+	public void deleteCategory(Long id) {
+		categoryRepository.delete(id);
 	}
 	
 
