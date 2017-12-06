@@ -36,7 +36,7 @@ public class PostController {
 		model.addAttribute("userpost", new Post());
 		List<Category> categories=postService.getAllCategories();
 		model.addAttribute("categories",categories);
-		List<Post> posts=postService.getAllPosts();
+		List<Post> posts=postService.getAllPostsByDateByOrder();
 		model.addAttribute("posts",posts);
 		return "/post/upload";
 	}
@@ -46,7 +46,7 @@ public class PostController {
 		//need to update
 		Post savedPost=postService.saveOrUpdatePost(post);
 		if(savedPost!=null){
-			List<Post> posts=postService.getAllPosts();
+			List<Post> posts=postService.getAllPostsByDateByOrder();
 			model.addAttribute("posts",posts);
 			model.addAttribute("userpost", savedPost);
 			List<Category> categories=postService.getAllCategories();

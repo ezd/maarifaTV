@@ -5,11 +5,9 @@
 <link rel="stylesheet" th:href="@{/css/customstyle4mainpages.css}" />
 <style type="text/css">
 #leftside {
-	border: 1px solid green;
 }
 
 #rightside {
-	border: 1px solid orange;
 	min-height: 563px;
 }
 #category{
@@ -17,6 +15,19 @@ margin-left: 14px;
 }
 #deleteTrigerBtn{
 margin-left: 14px;
+}
+.imageHolderSidePost{
+/*width: 100px;
+height:100px;*/
+border: 1px solid brown;
+}
+.descHolderSidePost{
+/*width: 100px;
+height:100px;*/
+border: 1px solid blue;
+}
+.postHolder{
+border: 1px solid red;
 }
 
 </style>
@@ -29,7 +40,7 @@ margin-left: 14px;
 		<div class="jumbotron row">
 			<div class="col-md-8" id="leftside">
 				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
+					<div class="col-md-10 col-md-offset-1">
 
 						<div class="alert alert-danger alert-dismissable"
 							th:if="${msgType != 'success' and msgType != null}" role="alert">
@@ -144,16 +155,14 @@ margin-left: 14px;
 			
 			<div th:if="${not #lists.isEmpty(posts)}">
 			    <h2>Post List</h2>
-			    <table class="table table-striped">
-			        <tr>
-			            <th>Id</th>
-			            <th>Name</th>
-			        </tr>
-			        <tr th:each="post : ${posts}">
-			            <td th:text="${post.id}"></td>
-			            <td th:text="${post.description}"></td>
-			        </tr>
-			    </table>
+			    
+			        <div class="postHolder" th:each="post : ${posts}">
+				        <div class="imageHolderSidePost">
+				        	<img th:alt="image" th:src="${post.descriptiveImageUrl}" width="96px"/>
+				        </div>
+				        <div class="descHolderSidePost" th:text="${post.shortWords}"></div>
+			        </div>
+			    
 			</div>
 			</div>
 

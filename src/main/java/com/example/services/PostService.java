@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.entities.Category;
@@ -41,6 +42,15 @@ public class PostService {
 	
 	public List<Post> getAllPosts(){
 		return (List<Post>) postRepository.findAll();
+	}
+	/*
+	 *  Iterator<Post>listFound=postRepository.findAll(pagable).iterator();
+			while(listFound.hasNext()){
+				postList.add(listFound.next());
+			}
+	 */
+	public List<Post> getAllPostsByDateByOrder(){
+		return postRepository.findAll(new Sort(Sort.Direction.DESC,"id"));
 	}
 	public List<Post> getAllPostsByContentType(ContentType type){
 		return (List<Post>) postRepository.findAllByContentType(type);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,12 +24,14 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	List<Post> findAllByPosterAndEnabled(User poster,boolean enabled);
 	Page<Post> findAllByPosterAndEnabled(User poster,boolean enabled,Pageable pagable);
 	
+	
 	List<Post> findAllByContentType(ContentType contentType);
 	List<Post> findAllByContentType(ContentType contentType,Pageable pagable);
 	List<Post> findAllByPosterAndContentType(User poster,ContentType contentType);
 	Page<Post> findAllByPosterAndContentType(User poster,ContentType contentType,Pageable pagable);
 	List<Post> findAllByPosterAndEnabledAndContentType(User poster,boolean enabled,ContentType contentType);
 	Page<Post> findAllByPosterAndEnabledAndContentType(User poster,boolean enabled,ContentType contentType,Pageable pagable);
+	List<Post> findAll(Sort sort);
 	
 
 }
